@@ -1,0 +1,65 @@
+{{- /* ============================================
+  Head 模板
+  ============================================
+  包含: meta标签, 标题, CSS链接, Favicon等
+============================================ */ -}}
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{{- if hugo.IsProduction | or (eq site.Params.env "production") }}
+<meta name="robots" content="index, follow">
+{{- else }}
+<meta name="robots" content="noindex, nofollow">
+{{- end }}
+
+{{- /* 标题 */ -}}
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+
+{{- /* 描述 */ -}}
+{{- if .Description }}
+<meta name="description" content="{{ .Description }}">
+{{- else if .Summary }}
+<meta name="description" content="{{ .Summary }}">
+{{- else if site.Params.description }}
+<meta name="description" content="{{ site.Params.description }}">
+{{- end }}
+
+{{- /* 关键词 */ -}}
+{{- if site.Params.keywords }}
+<meta name="keywords" content="{{ delimit site.Params.keywords ", " }}">
+{{- end }}
+
+{{- /* 作者 */ -}}
+<meta name="author" content="{{ site.Params.author | default site.Title }}">
+
+{{- /* Canonical URL */ -}}
+<link rel="canonical" href="{{ .Permalink }}">
+
+{{- /* Favicon */ -}}
+<link rel="icon" href="{{ "favicon.ico" | relURL }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | relURL }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ "favicon-16x16.png" | relURL }}">
+
+{{- /* RSS Feed */ -}}
+{{ with .OutputFormats.Get "rss" -}}
+  {{ printf `<link rel=%q type=%q href=%q title=%q>` "alternate" "application/rss+xml" .Permalink site.Title | safeHTML }}
+{{ end }}
+
+{{- /* 主题CSS */ -}}
+<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/three-column.css" | relURL }}">
+
+{{- /* 代码高亮 */ -}}
+{{- if (eq .Site.Params.defaultTheme "dark") }}
+<link rel="stylesheet" href="{{ "css/syntax-dark.css" | relURL }}">
+{{- else }}
+<link rel="stylesheet" href="{{ "css/syntax-light.css" | relURL }}">
+{{- end }}
+
+{{- /* Open Graph / Twitter Card */ -}}
+{{ template "_internal/opengraph.html" . }}
+{{ template "_internal/twitter_cards.html" . }}
+
+{{- /* 自定义Head */ -}}
+{{- partial "extend_head.html" . }}

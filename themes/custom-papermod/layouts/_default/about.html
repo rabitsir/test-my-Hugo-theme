@@ -1,0 +1,27 @@
+{{- /* ============================================
+  About页面模板 (About Template)
+  ============================================
+  关于页面，显示个人介绍
+  顶部有圆形头像用于返回主页
+============================================ */ -}}
+
+{{- define "main" }}
+<div class="about-page">
+  {{- /* 返回主页的头像 */ -}}
+  <div class="about-avatar">
+    <a href="{{ "/" | relURL }}" title="返回主页">
+      <img 
+        src="{{ site.Params.profileMode.imageUrl }}" 
+        alt="{{ site.Params.profileMode.title }}"
+        width="80"
+        height="80"
+      >
+    </a>
+  </div>
+  
+  {{- /* 页面内容 */ -}}
+  <article class="about-content">
+    {{ .Content }}
+  </article>
+</div>
+{{- end }}

@@ -1,0 +1,79 @@
+{{- /* ============================================
+  基础布局模板 (Base Layout)
+  ============================================
+  这是所有页面的基础模板，定义了HTML结构
+  包含: head, header, main, footer
+============================================ */ -}}
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<head>
+  {{- partial "head.html" . }}
+</head>
+<body class="{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) -}}{{- print "list" -}}{{- end -}} {{- if eq site.Params.defaultTheme `dark` -}} dark{{- end -}}" id="top">
+  
+  {{- /* 页面加载时的淡入效果 */ -}}
+  <script>
+    (function() {
+      const defaultTheme = '{{ site.Params.defaultTheme }}';
+      const setTheme = (theme) => {
+        document.body.classList.remove('dark');
+        if (theme === 'dark') {
+          document.body.classList.add('dark');
+        }
+      };
+      const savedTheme = localStorage.getItem('pref-theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else if (defaultTheme === 'dark') {
+        setTheme('dark');
+      }
+    })();
+  </script>
+
+  {{- /* ============================================
+    主页使用 Profile Mode，不显示 Header
+    其他页面显示三栏布局
+  ============================================ */ -}}
+  {{- if .IsHome -}}
+    {{- /* 主页: Profile Mode，无 Header */ -}}
+    <main class="main profile-mode">
+      {{- block "main" . }}{{ end }}
+    </main>
+    
+    {{- /* 备案信息 - 滚动后显示 */ -}}
+    <footer class="footer icp-footer">
+      <div class="footer-content">
+        <span>&copy; {{ now.Year }} {{ site.Params.author | default site.Title }}</span>
+        {{- if site.Params.beian }}
+        <span class="beian">
+          <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener noreferrer">
+            {{ site.Params.beian }}
+          </a>
+        </span>
+        {{- end }}
+      </div>
+    </footer>
+  {{- else -}}
+    {{- /* 其他页面: 三栏布局 */ -}}
+    <div class="three-column-layout">
+      {{- /* 左侧边栏 */ -}}
+      <aside class="left-sidebar">
+        {{- partial "left_sidebar.html" . }}
+      </aside>
+      
+      {{- /* 中间内容区 */ -}}
+      <main class="main-content">
+        {{- block "main" . }}{{ end }}
+      </main>
+      
+      {{- /* 右侧边栏 */ -}}
+      <aside class="right-sidebar">
+        {{- partial "right_sidebar.html" . }}
+      </aside>
+    </div>
+  {{- end -}}
+
+  {{- /* 脚本 */ -}}
+  <script src="{{ "js/main.js" | relURL }}"></script>
+</body>
+</html>

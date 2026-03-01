@@ -1,0 +1,106 @@
+{{- /* ============================================
+  右侧边栏模板 (Right Sidebar)
+  ============================================
+  包含:
+  - 搜索框
+  - 标题目录 (TOC - Table of Contents)
+  - 广告位
+  - 友情链接
+  - 网站资讯
+============================================ */ -}}
+
+<div class="sidebar-content">
+  {{- /* ============================================
+    搜索框
+  ============================================ */ -}}
+  <div class="search-box">
+    <div class="search-input-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input 
+        type="text" 
+        id="search-input"
+        placeholder="搜索文章..."
+        autocomplete="off"
+      >
+    </div>
+    <div id="search-results" class="search-results"></div>
+  </div>
+
+  {{- /* ============================================
+    标题目录 (TOC)
+    参考 Obsidian Quiet Outline 样式
+  ============================================ */ -}}
+  {{- if and (ne .Layout "search") (.TableOfContents) }}
+  <div class="toc-wrapper">
+    <button class="toc-header" onclick="toggleToc(this)">
+      <div class="header-left">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+        <h4>目录</h4>
+      </div>
+      <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+    <div class="toc-content" style="display: none;">
+      {{ .TableOfContents }}
+    </div>
+  </div>
+  {{- end }}
+
+  {{- /* ============================================
+    广告位
+  ============================================ */ -}}
+  <div class="ad-space">
+    <h4 class="ad-label">赞助广告</h4>
+    <div class="ad-content">
+      <p>广告位招租</p>
+      <p class="ad-contact">contact@example.com</p>
+    </div>
+  </div>
+
+  {{- /* ============================================
+    友情链接
+  ============================================ */ -}}
+  <div class="friend-links">
+    <div class="section-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      <h4>友情链接</h4>
+    </div>
+    <div class="links-list">
+      <a href="https://github.com/adityatelange/hugo-PaperMod" target="_blank" rel="noopener noreferrer" class="friend-link">
+        <span>PaperMod</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      </a>
+      <a href="https://github.com/alex-shpak/hugo-book" target="_blank" rel="noopener noreferrer" class="friend-link">
+        <span>Hugo Book</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      </a>
+      <a href="https://osnsyc.top" target="_blank" rel="noopener noreferrer" class="friend-link">
+        <span>OSNSYC</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+      </a>
+    </div>
+  </div>
+
+  {{- /* ============================================
+    网站资讯
+  ============================================ */ -}}
+  <div class="site-info">
+    <div class="section-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+      <h4>网站资讯</h4>
+    </div>
+    <div class="info-list">
+      <div class="info-item">
+        <span class="info-label">文章总数</span>
+        <span class="info-value">{{ len (where site.RegularPages "Type" "in" site.Params.mainSections) }}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">运行天数</span>
+        <span class="info-value">365</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">最后更新</span>
+        <span class="info-value">{{ now.Format "2006-01-02" }}</span>
+      </div>
+    </div>
+  </div>
+</div>

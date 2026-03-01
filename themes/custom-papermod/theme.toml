@@ -1,0 +1,34 @@
+# ============================================
+# 主题元数据
+# ============================================
+name = "Custom PaperMod"
+license = "MIT"
+licenselink = "https://github.com/adityatelange/hugo-PaperMod/blob/master/LICENSE"
+description = "基于 PaperMod 的自定义主题，融合 hugo-book 三栏布局"
+homepage = "https://github.com/adityatelange/hugo-PaperMod"
+demosite = "https://adityatelange.github.io/hugo-PaperMod/"
+tags = [
+  "blog",
+  "clean",
+  "responsive",
+  "minimal",
+  "personal",
+  "mobile",
+  "profile",
+  "simple",
+  "technical",
+  "white"
+]
+features = [
+  "三栏布局",
+  "Profile Mode",
+  "Archive 页面",
+  "目录树",
+  "标签云",
+  "搜索功能"
+]
+min_version = "0.146.0"
+
+[author]
+  name = "Tech Explorer"
+  homepage = "https://example.com"

@@ -1,0 +1,81 @@
+{{- /* ============================================
+  列表页模板 (List Template)
+  ============================================
+  用于:
+  - 笔记列表 (/notes/)
+  - 博客列表 (/blogs/)
+  - 项目列表 (/projects/)
+  - 标签列表 (/tags/)
+  - 分类列表 (/categories/)
+============================================ */ -}}
+
+{{- define "main" }}
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- if .Content }}
+  <div class="page-description">
+    {{ .Content }}
+  </div>
+  {{- end }}
+</header>
+
+{{- /* 文章列表 */ -}}
+{{- $paginator := .Paginate .Pages }}
+{{- if $paginator.Pages }}
+<div class="posts-list">
+  {{- range $paginator.Pages }}
+  <article class="post-entry">
+    <header class="entry-header">
+      <h2 class="entry-title">
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+      </h2>
+    </header>
+    
+    {{- if .Summary }}
+    <div class="entry-content">
+      <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+    </div>
+    {{- end }}
+    
+    <footer class="entry-footer">
+      <span class="entry-date">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        {{ .Date.Format "2006-01-02" }}
+      </span>
+      
+      {{- if .Params.categories }}
+      <span class="entry-category">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+        {{ range .Params.categories }}{{ . }}{{ end }}
+      </span>
+      {{- end }}
+      
+      {{- if .Params.tags }}
+      <span class="entry-tags">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.3 9.3a1 1 0 0 0 1.4 0l8.6-8.6a1 1 0 0 0 0-1.4L12 2Z"/><circle cx="7" cy="7" r="2"/></svg>
+        {{ range first 2 .Params.tags }}{{ . }}{{ if ne . (index (first 2 $.Params.tags) 1) }}, {{ end }}{{ end }}
+      </span>
+      {{- end }}
+    </footer>
+  </article>
+  {{- end }}
+</div>
+
+{{- /* 分页导航 */ -}}
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="pagination">
+  {{- if $paginator.HasPrev }}
+  <a class="prev" href="{{ $paginator.Prev.URL }}">← 上一页</a>
+  {{- end }}
+  <span class="page-number">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+  {{- if $paginator.HasNext }}
+  <a class="next" href="{{ $paginator.Next.URL }}">下一页 →</a>
+  {{- end }}
+</footer>
+{{- end }}
+{{- else }}
+<div class="no-posts">
+  <p>暂无文章</p>
+</div>
+{{- end }}
+{{- end }}
