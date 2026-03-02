@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>微信 on Tech Explorer</title>
+    <link>http://localhost:1313/tags/%E5%BE%AE%E4%BF%A1/</link>
+    <description>Recent content in 微信 on Tech Explorer</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 12 Aug 2025 10:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%BE%AE%E4%BF%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于本地数据库的微信公众号转RSS方案</title>
+      <link>http://localhost:1313/notes/wechat-rss/</link>
+      <pubDate>Tue, 12 Aug 2025 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/notes/wechat-rss/</guid>
+      <description>&lt;p&gt;使用RSSHub和本地数据库实现公众号RSS订阅&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;方案概述&#34;&gt;方案概述&lt;/h2&gt;&#xA;&lt;p&gt;微信公众号没有官方RSS支持，我们可以通过以下方式实现&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;技术实现&#34;&gt;技术实现&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;使用RSSHub抓取公众号文章&lt;/li&gt;&#xA;&lt;li&gt;存储到本地数据库&lt;/li&gt;&#xA;&lt;li&gt;生成RSS feed&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+  </channel>
+</rss>

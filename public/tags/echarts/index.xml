@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ECharts on Tech Explorer</title>
+    <link>http://localhost:1313/tags/echarts/</link>
+    <description>Recent content in ECharts on Tech Explorer</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 10 Jul 2025 10:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/echarts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Glance仪表盘图表定制方法，glance-echarts和n8n的使用介绍</title>
+      <link>http://localhost:1313/blogs/glance-dashboard/</link>
+      <pubDate>Thu, 10 Jul 2025 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/blogs/glance-dashboard/</guid>
+      <description>&lt;p&gt;使用Glance和ECharts打造个性化仪表盘&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;什么是glance&#34;&gt;什么是Glance&lt;/h2&gt;&#xA;&lt;p&gt;Glance是一个可自托管的仪表盘工具，支持多种数据源&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;定制图表&#34;&gt;定制图表&lt;/h2&gt;&#xA;&lt;p&gt;使用ECharts自定义各种图表类型&amp;hellip;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>用Grafana和Echarts实现可嵌入使用的iframe图表</title>
+      <link>http://localhost:1313/projects/grafana-iframe/</link>
+      <pubDate>Thu, 29 May 2025 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/projects/grafana-iframe/</guid>
+      <description>&lt;p&gt;创建可嵌入的交互式图表&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;方案概述&#34;&gt;方案概述&lt;/h2&gt;&#xA;&lt;p&gt;使用Grafana作为数据源，ECharts作为图表库，生成可嵌入的iframe&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;实现步骤&#34;&gt;实现步骤&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;配置Grafana数据源&lt;/li&gt;&#xA;&lt;li&gt;创建ECharts图表&lt;/li&gt;&#xA;&lt;li&gt;生成嵌入代码&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+  </channel>
+</rss>

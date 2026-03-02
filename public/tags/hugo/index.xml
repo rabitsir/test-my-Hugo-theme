@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Tech Explorer</title>
+    <link>http://localhost:1313/tags/hugo/</link>
+    <description>Recent content in Hugo on Tech Explorer</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 14 Oct 2025 10:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hugo博客装修小记之三</title>
+      <link>http://localhost:1313/notes/hugo-blog-3/</link>
+      <pubDate>Tue, 14 Oct 2025 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/notes/hugo-blog-3/</guid>
+      <description>&lt;p&gt;继续优化博客主题和样式&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;本次更新内容&#34;&gt;本次更新内容&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;优化了三栏布局的响应式设计&lt;/li&gt;&#xA;&lt;li&gt;添加了目录树折叠功能&lt;/li&gt;&#xA;&lt;li&gt;改进了Archive页面的样式&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;技术细节&#34;&gt;技术细节&lt;/h2&gt;&#xA;&lt;p&gt;使用 CSS Grid 实现三栏布局&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

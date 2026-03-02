@@ -9,8 +9,7 @@
 <head>
   {{- partial "head.html" . }}
 </head>
-<body class="{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) -}}{{- print "list" -}}{{- end -}} {{- if eq site.Params.defaultTheme `dark` -}} dark{{- end -}}" id="top">
-  
+<body class="{{ if .IsHome }}is-home {{ end }}{{- if (or (ne .Kind `page` ) (eq .Layout `archives`) (eq .Layout `search`)) -}}{{- print "list" -}}{{- end -}} {{- if eq site.Params.defaultTheme `dark` -}} dark{{- end -}}" id="top">
   {{- /* 页面加载时的淡入效果 */ -}}
   <script>
     (function() {
@@ -31,17 +30,45 @@
   </script>
 
   {{- /* ============================================
-    主页使用 Profile Mode，不显示 Header
-    其他页面显示三栏布局
-  ============================================ */ -}}
-  {{- if .IsHome -}}
-    {{- /* 主页: Profile Mode，无 Header */ -}}
-    <main class="main profile-mode">
-      {{- block "main" . }}{{ end }}
-    </main>
-    
-    {{- /* 备案信息 - 滚动后显示 */ -}}
-    <footer class="footer icp-footer">
+      布局判断：主页、单栏页(About)、三栏页
+    ============================================ */ -}}
+    {{- if .IsHome -}}
+      {{- /* 第一条路 | 主页: Profile Mode，无 Header */ -}}
+      <main class="main profile-mode">
+        {{- block "main" . }}{{ end }}
+      </main>
+
+    {{- /* 当页面的 Front Matter 中设置了 hideSidebars: true 时生效 */ -}}
+    {{- else if .Params.hideSidebars -}}
+      {{- /* 第二条路 | 关于页面: 纯净单栏布局，无侧边栏 */ -}}
+      <main class="main single-column">
+        {{- block "main" . }}{{ end }}
+      </main>
+
+    {{- else -}}
+      {{- /* 第三条路 | 其他页面: 三栏布局 (含左右侧边栏) */ -}}
+      <div class="three-column-layout">
+        {{- /* 左侧边栏 */ -}}
+        <aside class="left-sidebar">
+          {{- partial "left_sidebar.html" . }}
+        </aside>
+        
+        {{- /* 中间内容区 */ -}}
+        <main class="main-content">
+          {{- block "main" . }}{{ end }}
+        </main>
+        
+        {{- /* 右侧边栏 */ -}}
+        <aside class="right-sidebar">
+          {{- partial "right_sidebar.html" . }}
+        </aside>
+      </div>
+    {{- end -}}
+
+    {{- /* ============================================
+      全局普通 Footer (所有页面都会显示)
+    ============================================ */ -}}
+    <footer class="site-footer">
       <div class="footer-content">
         <span>&copy; {{ now.Year }} {{ site.Params.author | default site.Title }}</span>
         {{- if site.Params.beian }}
@@ -53,27 +80,8 @@
         {{- end }}
       </div>
     </footer>
-  {{- else -}}
-    {{- /* 其他页面: 三栏布局 */ -}}
-    <div class="three-column-layout">
-      {{- /* 左侧边栏 */ -}}
-      <aside class="left-sidebar">
-        {{- partial "left_sidebar.html" . }}
-      </aside>
-      
-      {{- /* 中间内容区 */ -}}
-      <main class="main-content">
-        {{- block "main" . }}{{ end }}
-      </main>
-      
-      {{- /* 右侧边栏 */ -}}
-      <aside class="right-sidebar">
-        {{- partial "right_sidebar.html" . }}
-      </aside>
-    </div>
-  {{- end -}}
 
-  {{- /* 脚本 */ -}}
-  <script src="{{ "js/main.js" | relURL }}"></script>
+    {{- /* 脚本 */ -}}
+    <script src="{{ "/js/main.js" | relURL }}"></script>
 </body>
 </html>

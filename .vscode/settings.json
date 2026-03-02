@@ -1,0 +1,16 @@
+{
+    // 让 VS Code 识别 .html 中的 Go 模板语法
+    "files.associations": {
+        "*.html": "gohtmltmpl"
+    },
+    
+    // 保存时自动格式化 TOML（防错）
+    "[toml]": {
+        "editor.formatOnSave": true
+    },
+    
+    // Front Matter 默认使用 TOML（匹配 Hugo 默认）
+    "yaml.schemas": {
+        "https://json.schemastore.org/hugo.json": "hugo.toml"
+    }
+}

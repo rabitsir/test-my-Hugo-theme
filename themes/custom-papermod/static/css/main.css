@@ -12,42 +12,46 @@
   --primary: #3b82f6;
   --primary-hover: #2563eb;
   --primary-rgb: 59, 130, 246;
-  
+
   /* 背景色 */
   --bg-page: #f8f9fa;
   --bg-card: #ffffff;
   --bg-code: #f3f4f6;
-  
+
   /* 文字色 */
   --text-primary: #1f2937;
   --text-secondary: #4b5563;
   --text-muted: #9ca3af;
-  
+
   /* 边框 */
   --border-color: #e5e7eb;
   --border-radius: 12px;
-  
+
   /* 阴影 */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+  ddf
   /* 间距 */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  
+
   /* 侧边栏宽度 */
-  --sidebar-width: 280px;
-  --content-max-width: 800px;
+  --sidebar-width: 270px;
+  /* 把侧边栏稍微收窄到 260px，给中间文章腾出更多空间 */
+  --content-max-width: 100%;
+  /* ✨ 关键！改成 100%，彻底解除中间栏的最大宽度限制 */
 }
 
 /* ============================================
    基础样式重置
 ============================================ */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -78,6 +82,15 @@ img {
 }
 
 /* ============================================
+   主页专属全局背景
+============================================ */
+body.is-home {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-attachment: fixed;
+  /* 固定背景，这样向下滑动时渐变不会断层 */
+}
+
+/* ============================================
    Profile Mode 主页样式
 ============================================ */
 .profile-mode {
@@ -87,7 +100,7 @@ img {
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
 }
 
 .profile-container {
@@ -214,38 +227,33 @@ img {
 }
 
 /* ============================================
-   备案信息
+   全局底部 Footer
 ============================================ */
-.icp-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.5rem;
+.site-footer {
+  padding: 2rem;
   text-align: center;
   font-size: 0.875rem;
   color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.3s ease;
+  /* 灰色的文字 */
+  background: transparent;
+  /* 背景完全透明，和网页原生背景融为一体 */
 }
 
-.icp-footer.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.footer-content {
+.site-footer .footer-content {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
-.beian a:hover {
+.site-footer a {
+  transition: color 0.2s ease;
+}
+
+.site-footer a:hover {
   color: var(--text-secondary);
 }
+
+
 
 /* ============================================
    动画
@@ -255,6 +263,7 @@ img {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -296,7 +305,7 @@ img {
   .profile-title {
     font-size: 2rem;
   }
-  
+
   .profile-subtitle {
     font-size: 1rem;
   }
@@ -307,18 +316,81 @@ img {
     width: 120px;
     height: 120px;
   }
-  
+
   .profile-title {
     font-size: 1.75rem;
   }
-  
+
   .buttons {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .button {
     width: 100%;
     max-width: 200px;
+  }
+}
+
+/* ============================================
+   单栏纯净布局 (如 About 页面)
+============================================ */
+.single-column {
+  max-width: 800px;
+  /* 限制最大宽度，阅读体验最佳 */
+  margin: 0 auto;
+  /* 让内容在页面中水平居中 */
+  padding: 2rem;
+  /* 四周留出呼吸空间 */
+  min-height: 80vh;
+  /* 保证哪怕内容很少，Footer也不会顶上来 */
+}
+
+/* ============================================
+   About 页面头像及手指提示
+============================================ */
+.about-avatar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* 确保头像绝对居中 */
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.about-avatar img {
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.about-avatar img:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+/* 手指和提示文字样式（使用绝对定位，不把头像挤偏） */
+.back-home-hint {
+  position: absolute;
+  left: 50%;
+  margin-left: 55px;
+  /* 80px头像的一半(40px) + 15px的间距 */
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  /* 强制文字不换行 */
+  animation: pointLeft 1.5s infinite ease-in-out;
+}
+
+/* 定义手指戳向左边头像的动画 */
+@keyframes pointLeft {
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(-6px);
   }
 }

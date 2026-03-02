@@ -10,12 +10,14 @@
 .three-column-layout {
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
-  gap: 2rem;
-  max-width: 1400px;
+  gap: 1.5rem;
+  max-width: 80% !important;
   margin: 0 auto;
   padding: 5rem 2rem 2rem;
   min-height: 100vh;
 }
+
+
 
 /* ============================================
    左侧边栏
@@ -301,6 +303,7 @@
 ============================================ */
 .main-content {
   min-width: 0;
+  width: 100% !important;
   max-width: var(--content-max-width);
   margin: 0 auto;
 }
@@ -979,12 +982,12 @@
     grid-template-columns: 1fr;
     padding-top: 4rem;
   }
-  
+
   .left-sidebar,
   .right-sidebar {
     display: none;
   }
-  
+
   .main-content {
     max-width: 100%;
   }
@@ -994,19 +997,19 @@
   .three-column-layout {
     padding: 1rem;
   }
-  
+
   .post-single {
     padding: 1.5rem;
   }
-  
+
   .post-title {
     font-size: 1.5rem;
   }
-  
+
   .post-nav {
     grid-template-columns: 1fr;
   }
-  
+
   .post-nav .next {
     grid-column: 1;
   }

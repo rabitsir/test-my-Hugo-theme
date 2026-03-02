@@ -10,7 +10,7 @@
  * - 搜索功能
 ============================================ */
 
-(function() {
+(function () {
   'use strict';
 
   /**
@@ -19,7 +19,7 @@
    * ============================================
    * @param {HTMLElement} button - 点击的按钮元素
    */
-  window.toggleFolder = function(button) {
+  window.toggleFolder = function (button) {
     button.classList.toggle('expanded');
     const children = button.nextElementSibling;
     if (children) {
@@ -33,7 +33,7 @@
    * ============================================
    * @param {HTMLElement} button - 点击的按钮元素
    */
-  window.toggleTagCloud = function(button) {
+  window.toggleTagCloud = function (button) {
     button.classList.toggle('expanded');
     const content = button.nextElementSibling;
     if (content) {
@@ -47,7 +47,7 @@
    * ============================================
    * @param {HTMLElement} button - 点击的按钮元素
    */
-  window.toggleToc = function(button) {
+  window.toggleToc = function (button) {
     button.classList.toggle('expanded');
     const content = button.nextElementSibling;
     if (content) {
@@ -55,35 +55,7 @@
     }
   };
 
-  /**
-   * ============================================
-   * 备案信息显示控制
-   * 滚动超过200px后显示备案信息
-   * ============================================
-   */
-  function initICPVisibility() {
-    const icpFooter = document.querySelector('.icp-footer');
-    if (!icpFooter) return;
 
-    let ticking = false;
-
-    function updateICPVisibility() {
-      const scrollY = window.scrollY;
-      if (scrollY > 200) {
-        icpFooter.classList.add('visible');
-      } else {
-        icpFooter.classList.remove('visible');
-      }
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function() {
-      if (!ticking) {
-        window.requestAnimationFrame(updateICPVisibility);
-        ticking = true;
-      }
-    });
-  }
 
   /**
    * ============================================
@@ -93,7 +65,7 @@
   function initSearch() {
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
-    
+
     if (!searchInput || !searchResults) return;
 
     let searchIndex = [];
@@ -109,9 +81,9 @@
       });
 
     // 搜索输入事件
-    searchInput.addEventListener('input', function(e) {
+    searchInput.addEventListener('input', function (e) {
       const query = e.target.value.toLowerCase().trim();
-      
+
       if (query.length < 2) {
         searchResults.innerHTML = '';
         searchResults.style.display = 'none';
@@ -140,7 +112,7 @@
     });
 
     // 点击外部关闭搜索结果
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
       if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
         searchResults.style.display = 'none';
       }
@@ -180,7 +152,7 @@
     }
 
     let ticking = false;
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
       if (!ticking) {
         window.requestAnimationFrame(updateTocHighlight);
         ticking = true;
@@ -197,7 +169,7 @@
    */
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+      anchor.addEventListener('click', function (e) {
         const targetId = this.getAttribute('href');
         if (targetId === '#') return;
 
@@ -219,7 +191,7 @@
    * ============================================
    */
   function init() {
-    initICPVisibility();
+
     initSearch();
     initTocHighlight();
     initSmoothScroll();

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Qobuz on Tech Explorer</title>
+    <link>http://localhost:1313/tags/qobuz/</link>
+    <description>Recent content in Qobuz on Tech Explorer</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 15 Sep 2025 10:00:00 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/qobuz/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于Roon&#43;Qobuz&#43;网易云的自动化私人音乐库</title>
+      <link>http://localhost:1313/notes/music-library/</link>
+      <pubDate>Mon, 15 Sep 2025 10:00:00 +0800</pubDate>
+      <guid>http://localhost:1313/notes/music-library/</guid>
+      <description>&lt;p&gt;搭建高品质音乐流媒体系统&amp;hellip;&lt;/p&gt;&#xA;&lt;h2 id=&#34;系统架构&#34;&gt;系统架构&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Roon&lt;/strong&gt;: 音乐管理和播放核心&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Qobuz&lt;/strong&gt;: 高品质音乐源&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;网易云音乐&lt;/strong&gt;: 补充华语音乐&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;自动化流程&#34;&gt;自动化流程&lt;/h2&gt;&#xA;&lt;p&gt;使用脚本自动同步歌单和下载音乐&amp;hellip;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
