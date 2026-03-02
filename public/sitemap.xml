@@ -3,73 +3,7 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/pt/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E5%9B%9E%E5%BF%86/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/pt-memory/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/</loc>
-    <lastmod>2025-10-25T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/hugo/</loc>
-    <lastmod>2025-10-14T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/hugo-blog-3/</loc>
-    <lastmod>2025-10-14T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2025-10-14T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</loc>
-    <lastmod>2025-10-14T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/homeassistant/</loc>
-    <lastmod>2025-10-09T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/home-automation/</loc>
-    <lastmod>2025-10-09T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/%E6%99%BA%E8%83%BD%E5%AE%B6%E5%B1%85/</loc>
-    <lastmod>2025-10-09T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</loc>
-    <lastmod>2025-10-09T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/qobuz/</loc>
-    <lastmod>2025-09-15T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/roon/</loc>
-    <lastmod>2025-09-15T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/music-library/</loc>
-    <lastmod>2025-09-15T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E9%9F%B3%E4%B9%90/</loc>
-    <lastmod>2025-09-15T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/rss/</loc>
-    <lastmod>2025-08-12T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/notes/wechat-rss/</loc>
-    <lastmod>2025-08-12T10:00:00+08:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/%E5%BE%AE%E4%BF%A1/</loc>
-    <lastmod>2025-08-12T10:00:00+08:00</lastmod>
+    <lastmod>2025-07-28T10:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/markdown/</loc>
     <lastmod>2025-07-28T10:00:00+08:00</lastmod>
@@ -77,10 +11,22 @@
     <loc>http://localhost:1313/blogs/markdown-workflow/</loc>
     <lastmod>2025-07-28T10:00:00+08:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-07-28T10:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-07-28T10:00:00+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/blogs/</loc>
     <lastmod>2025-07-28T10:00:00+08:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2025-07-28T10:00:00+08:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/tags/%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2025-07-28T10:00:00+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2025-07-28T10:00:00+08:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/echarts/</loc>
@@ -125,9 +71,22 @@
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2025-01-01T00:00:00+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/notes/announcement/</loc>
-    <lastmod>2025-01-01T00:00:00+08:00</lastmod>
+    <loc>http://localhost:1313/notes/%E5%8E%86%E5%8F%B2%E5%9C%B0%E7%90%86%E6%94%BF%E6%B2%BB/%E5%8E%86%E5%8F%B2/%E5%8E%86%E5%8F%B2/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E5%8E%86%E5%8F%B2%E5%9C%B0%E7%90%86%E6%94%BF%E6%B2%BB/%E5%9C%B0%E7%90%83%E7%9A%84%E6%95%85%E4%BA%8B/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E5%8E%86%E5%8F%B2%E5%9C%B0%E7%90%86%E6%94%BF%E6%B2%BB/%E8%80%83%E7%A0%94%E6%94%BF%E6%B2%BB/%E8%80%83%E7%A0%94%E6%94%BF%E6%B2%BB/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E5%8E%86%E5%8F%B2%E5%9C%B0%E7%90%86%E6%94%BF%E6%B2%BB/%E9%87%91%E8%9E%8D/%E9%87%91%E8%9E%8D/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E7%BC%96%E7%A8%8B/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E7%BC%96%E7%A8%8B/python/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/%E5%8E%86%E5%8F%B2%E5%9C%B0%E7%90%86%E6%94%BF%E6%B2%BB/</loc>
   </url><url>
     <loc>http://localhost:1313/archive/</loc>
+  </url><url>
+    <loc>http://localhost:1313/notes/</loc>
   </url>
 </urlset>

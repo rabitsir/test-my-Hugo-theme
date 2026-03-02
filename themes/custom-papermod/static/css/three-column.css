@@ -11,12 +11,12 @@
   display: grid;
   grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
   gap: 1.5rem;
-  max-width: 80% !important;
+  max-width: 80%;
+  /* 原代码 */
   margin: 0 auto;
   padding: 5rem 2rem 2rem;
   min-height: 100vh;
 }
-
 
 
 /* ============================================
@@ -303,7 +303,7 @@
 ============================================ */
 .main-content {
   min-width: 0;
-  width: 100% !important;
+  width: 100%;
   max-width: var(--content-max-width);
   margin: 0 auto;
 }
