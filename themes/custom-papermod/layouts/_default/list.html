@@ -10,26 +10,21 @@
 
 {{- define "main" }}
 <header class="page-header">
-  <h1>
-    {{- /* 生成层级标题，例如 "笔记 / 编程" 或 "Tags / 工具" */ -}}
-    {{- $paths := slice -}}
-    
-    {{- /* 1. 遍历父级目录，把名字塞进数组 */ -}}
+  <h1 style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+    {{- /* 1. 遍历父级目录，生成带有链接的路径 */ -}}
     {{- range .Ancestors.Reverse -}}
       {{- if not .IsHome -}}
         {{- $ancTitle := .Title -}}
         {{- if not $ancTitle }}{{ if .File }}{{ $ancTitle = .File.BaseFileName }}{{ else }}{{ $ancTitle = "未命名" }}{{ end }}{{ end -}}
-        {{- $paths = $paths | append $ancTitle -}}
+        <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $ancTitle }}</a> 
+        <span style="opacity: 0.4; font-weight: 400; font-size: 0.85em; user-select: none;">/</span>
       {{- end -}}
     {{- end -}}
     
-    {{- /* 2. 获取当前目录的名字，没有则退化为文件名 */ -}}
+    {{- /* 2. 获取当前目录的名字，并赋予链接 */ -}}
     {{- $currTitle := .Title -}}
     {{- if not .Params.title }}{{ if .File }}{{ $currTitle = .File.BaseFileName }}{{ else }}{{ $currTitle = "未命名" }}{{ end }}{{ end -}}
-    {{- $paths = $paths | append $currTitle -}}
-    
-    {{- /* 3. 用 " / " 拼合输出 */ -}}
-    {{- delimit $paths " / " -}}
+    <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $currTitle }}</a>
   </h1>
   
   {{- if .Content }}
@@ -40,23 +35,21 @@
 </header>
 
 {{- /* 文章/子目录 列表 */ -}}
-{{- /* .Pages 只获取当前目录下的直接文件和直接子目录（即子 list） */ -}}
 {{- $paginator := .Paginate .Pages }}
 {{- if $paginator.Pages }}
 <div class="posts-list">
   {{- range $paginator.Pages }}
-  <article class="post-entry">
+  {{- /* 关键修改 1: 给 article 增加 position: relative 以限制内部绝对定位的 a 标签 */ -}}
+  <article class="post-entry" style="position: relative;">
     <header class="entry-header">
       <h2 class="entry-title">
-        <a href="{{ .Permalink }}">
-          {{- /* 如果当前项目是一个子目录 (子 List)，显示一个文件夹图标以作区分 */ -}}
-          {{- if .IsNode -}}
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 6px; color: #3b82f6;"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
-          {{- end -}}
-          
-          {{- /* 标题逻辑：有 title 显 title，没有则显文件名 */ -}}
-          {{- if .Params.title }}{{ .Title }}{{ else if .File }}{{ .File.BaseFileName }}{{ else }}未命名{{ end }}
-        </a>
+        {{- /* 如果当前项目是一个子目录 (子 List)，显示一个文件夹图标以作区分 */ -}}
+        {{- if .IsNode -}}
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 6px; color: #3b82f6;"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+        {{- end -}}
+        
+        {{- /* 标题逻辑：这里移除了原本内部的 <a> 标签，防止嵌套链接引起浏览器解析错误 */ -}}
+        {{- if .Params.title }}{{ .Title }}{{ else if .File }}{{ .File.BaseFileName }}{{ else }}未命名{{ end }}
       </h2>
     </header>
     
@@ -66,16 +59,13 @@
     </div>
     {{- end }}
     
-    {{- /* 底部信息栏：只有它是具体的文章(.IsPage)才显示时间和标签，如果是子目录则隐藏 */ -}}
+    {{- /* 底部信息栏 */ -}}
     {{- if .IsPage }}
     <footer class="entry-footer">
       <span class="entry-date">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-        {{- /* 日期逻辑：有 date 显 date，没写默认为 0000-00-00 */ -}}
         {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ else }}1949-10-01{{ end }}
       </span>
-      
-      {{- /* 彻底移除了 Categories 的代码 */ -}}
       
       {{- if .Params.tags }}
       <span class="entry-tags">
@@ -85,6 +75,9 @@
       {{- end }}
     </footer>
     {{- end }}
+
+    {{- /* 关键修改 2: 在 article 内部的最底层，放一个长宽铺满的透明 <a> 标签，实现整块可点击 */ -}}
+    <a class="entry-link" aria-label="前往详情: {{ if .Params.title }}{{ .Title }}{{ else if .File }}{{ .File.BaseFileName }}{{ else }}未命名{{ end }}" href="{{ .Permalink }}" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;"></a>
   </article>
   {{- end }}
 </div>

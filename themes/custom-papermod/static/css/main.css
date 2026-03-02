@@ -394,3 +394,43 @@ body.is-home {
     transform: translateX(-6px);
   }
 }
+
+
+/* ============================================
+   面包屑导航样式
+   ============================================ */
+.breadcrumb-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb-link {
+  color: var(--primary);
+  text-decoration: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.breadcrumb-link:hover {
+  background: var(--code-bg);
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+
+.breadcrumb-separator {
+  color: var(--secondary);
+  margin: 0 0.2rem;
+  user-select: none;
+}
+
+.breadcrumb-current {
+  color: var(--content);
+  font-weight: 600;
+  padding: 0.2rem 0.4rem;
+}
