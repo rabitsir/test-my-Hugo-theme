@@ -7,7 +7,7 @@
 # ============================================
 
 # 基础站点配置
-baseURL = 'https://example.com'
+baseURL = '/'
 languageCode = 'zh-CN'
 title = 'Tech Explorer'
 theme = 'custom-papermod'
@@ -23,6 +23,9 @@ pagerSize = 10
 [params]
 # 站点描述
 description = '热爱技术，探索无限可能 | 全栈开发者 | 航空爱好者'
+
+# 主内容类型（用于归档、RSS等）
+mainSections = ['blogs', 'projects', 'notes']
 
 # 作者信息
 author = 'Tech Explorer'
@@ -172,6 +175,20 @@ section = ['HTML', 'RSS']
 [markup.goldmark]
 [markup.goldmark.renderer]
 unsafe = true # 允许原始HTML
+
+# ============================================
+# Front Matter 默认配置
+# ============================================
+[frontmatter]
+date = ['date', ':default']
+lastmod = ['lastmod', ':default']
+expiryDate = ['expiryDate']
+publishDate = ['publishDate']
+# 默认日期为 1949-10-01
+[params.defaultDate]
+year = 1949
+month = 10
+day = 1
 [markup.highlight]
 style = 'github'
 lineNos = true

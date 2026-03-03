@@ -13,11 +13,11 @@
   <header class="post-header">
     <h1 class="post-title">{{ if .Params.title }}{{ .Title }}{{ else if .File }}{{ .File.BaseFileName }}{{ else }}未命名{{ end }}</h1>
     
-    {{- /* 元信息 */ -}}
+    {{- /* 元信息行 */ -}}
     <div class="post-meta">
       <span class="post-date">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-        {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ else }}1949-10-01{{ end }}
+        {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ else }}{{ $y := int site.Params.defaultDate.year }}{{ $m := int site.Params.defaultDate.month }}{{ $d := int site.Params.defaultDate.day }}{{ printf "%d-%02d-%02d" $y $m $d }}{{ end }}
       </span>
       
       {{- if .Params.author }}
@@ -27,12 +27,37 @@
       </span>
       {{- end }}
       
-      
       {{- if .Params.readingTime }}
       <span class="post-reading-time">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         {{ .ReadingTime }} 分钟阅读
       </span>
+      {{- end }}
+    </div>
+    
+    {{- /* 标签行 */ -}}
+    <div class="post-tags-header">
+      {{- /* 返回按钮 - 使用浏览器历史返回 */ -}}
+      <a href="javascript:history.back()" class="tag tag-back">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; margin-right: 2px;"><path d="m15 18-6-6 6-6"/></svg>
+        返回
+      </a>
+      
+      {{- /* 目录层级标签 */ -}}
+      {{- range .Ancestors.Reverse }}
+        {{- if not .IsHome }}
+        <a href="{{ .RelPermalink }}" class="tag tag-folder">{{ .Title | default .File.BaseFileName }}</a>
+        {{- end }}
+      {{- end }}
+      
+      {{- /* 原文件标签 */ -}}
+      {{- if .Params.tags }}
+        <span class="tag-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -1px; color: var(--text-muted);"><path d="M12 2H2v10l9.3 9.3a1 1 0 0 0 1.4 0l8.6-8.6a1 1 0 0 0 0-1.4L12 2Z"/><circle cx="7" cy="7" r="2"/></svg>
+        </span>
+        {{- range $tag := .Params.tags }}
+        <a href="{{ "/tags/" | relURL }}{{ $tag | urlize }}" class="tag">{{ $tag }}</a>
+        {{- end }}
       {{- end }}
     </div>
   </header>
@@ -42,15 +67,7 @@
     {{ .Content }}
   </div>
   
-  {{- /* 标签 */ -}}
-  {{- if .Params.tags }}
-  <footer class="post-tags">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.3 9.3a1 1 0 0 0 1.4 0l8.6-8.6a1 1 0 0 0 0-1.4L12 2Z"/><circle cx="7" cy="7" r="2"/></svg>
-    {{- range .Params.tags }}
-    <a href="{{ "/tags/" | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
-    {{- end }}
-  </footer>
-  {{- end }}
+
   
   {{- /* 文章导航 */ -}}
   {{- if or .NextInSection .PrevInSection }}

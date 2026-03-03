@@ -83,5 +83,119 @@
 
     {{- /* 脚本 */ -}}
     <script src="{{ "/js/main.js" | relURL }}"></script>
+    
+    {{- /* ============================================
+      公告页面：读取 URL 参数恢复侧边栏上下文
+    ============================================ */ -}}
+    {{- if eq .Type "announcement" -}}
+    <script>
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromSection = urlParams.get('from') || '';
+        
+        // 更新归档链接
+        if (fromSection) {
+          const archiveLink = document.querySelector('.archive-link');
+          if (archiveLink) {
+            archiveLink.href = '/' + fromSection + '/archive/';
+          }
+        }
+        
+        // 控制侧边栏面板显示
+        const navMenu = document.querySelector('.nav-menu');
+        const tagsWidget = document.querySelector('.tags-widget');
+        
+        // 默认全部隐藏
+        if (navMenu) navMenu.style.display = 'none';
+        if (tagsWidget) tagsWidget.style.display = 'none';
+        
+        // 根据来源显示对应面板
+        if (fromSection === 'notes') {
+          if (navMenu) navMenu.style.display = 'block';
+        } else if (fromSection === 'blogs' || fromSection === 'tags') {
+          if (tagsWidget) tagsWidget.style.display = 'block';
+        }
+      })();
+    </script>
+    {{- end }}
+    
+    {{- /* ============================================
+      页面目录滚动高亮
+    ============================================ */ -}}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const toc = document.getElementById('toc-card');
+        if (!toc) return;
+        
+        const tocLinks = toc.querySelectorAll('a[href^="#"]');
+        const headings = [];
+        
+        // 收集所有标题元素
+        tocLinks.forEach(link => {
+          const id = link.getAttribute('href').slice(1);
+          const heading = document.getElementById(id);
+          if (heading) {
+            headings.push({ id, element: heading, link });
+          }
+        });
+        
+        if (headings.length === 0) return;
+        
+        // 高亮当前标题
+        function highlightCurrentHeading() {
+          const scrollPos = window.scrollY + 100; // 偏移量
+          let current = headings[0];
+          
+          for (const h of headings) {
+            if (h.element.offsetTop <= scrollPos) {
+              current = h;
+            } else {
+              break;
+            }
+          }
+          
+          // 移除所有 active 类
+          tocLinks.forEach(link => link.classList.remove('active'));
+          
+          // 添加当前 active 类
+          if (current) {
+            current.link.classList.add('active');
+            
+            // 确保父级展开
+            let parent = current.link.parentElement;
+            while (parent) {
+              if (parent.tagName === 'LI') {
+                parent.classList.add('active');
+              }
+              if (parent.tagName === 'UL') {
+                parent.style.display = 'block';
+              }
+              parent = parent.parentElement;
+            }
+          }
+        }
+        
+        // 点击目录平滑滚动
+        tocLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const id = this.getAttribute('href').slice(1);
+            const target = document.getElementById(id);
+            if (target) {
+              window.scrollTo({
+                top: target.offsetTop - 80,
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+        
+        // 滚动时更新高亮
+        window.addEventListener('scroll', highlightCurrentHeading, { passive: true });
+        
+        // 初始高亮
+        highlightCurrentHeading();
+      });
+    </script>
 </body>
 </html>

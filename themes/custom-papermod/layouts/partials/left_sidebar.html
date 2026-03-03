@@ -1,27 +1,13 @@
 {{- /* ============================================
   左侧边栏模板 (Left Sidebar)
-  ============================================
-  根据页面类型显示不同内容:
-  - 个人名片 (点击返回主页)
-  - 公告
-  - Archive链接
-  - 可折叠目录树 (Notes页面)
-  - 可折叠标签云 (Blogs页面)
 ============================================ */ -}}
 
-<div class="sidebar-content">
-  {{- /* ============================================
-    个人名片
-  ============================================ */ -}}
+<div class="sidebar-content" data-section="{{ .Section }}">
+  
+  {{- /* 个人名片 */ -}}
   <div class="profile-card">
     <a href="{{ "/" | relURL }}" class="profile-link">
-      <img 
-        src="{{ site.Params.profileMode.imageUrl }}" 
-        alt="{{ site.Params.profileMode.title }}"
-        class="profile-avatar"
-        width="80"
-        height="80"
-      >
+      <img src="{{ site.Params.profileMode.imageUrl }}" alt="{{ site.Params.profileMode.title }}" class="profile-avatar" width="80" height="80">
       <h3 class="profile-name">{{ site.Params.profileMode.title }}</h3>
       <p class="profile-bio">{{ site.Params.profileMode.subtitle }}</p>
       <span class="back-home">
@@ -31,141 +17,97 @@
     </a>
   </div>
 
-  {{- /* ============================================
-    公告卡片
-  ============================================ */ -}}
-  <div class="announcement-card">
+  {{- /* 公告卡片 */ -}}
+  {{- $announcement := site.GetPage "/announcement" -}}
+  {{- if $announcement -}}
+  {{- $announcementURL := $announcement.RelPermalink -}}
+  {{- if and .Section (ne .Section "") -}}
+    {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
+  {{- end -}}
+  <a href="{{ $announcementURL }}" class="announcement-card">
     <div class="card-header">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
-      <h4>公告</h4>
+      <h4>{{ $announcement.Title }}</h4>
     </div>
-    <p class="announcement-text">
-      欢迎来到我的技术博客！这里记录我的学习笔记、项目经验和生活随笔。
-    </p>
-    <a href="{{ "/notes/announcement" | relURL }}" class="announcement-link">
-      查看详情 →
-    </a>
-  </div>
-
-  {{- /* ============================================
-    Archive链接
-  ============================================ */ -}}
-  <a href="{{ "/archive" | relURL }}" class="archive-link">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 17.6-1.5-7.5A2 2 0 0 0 18.2 8H14V5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v3H4.8a2 2 0 0 0-2 2.1l1.5 7.5A2 2 0 0 0 6.3 19h12.4a2 2 0 0 0 2-1.4Z"/><path d="M12 11v8"/><path d="M8 11v8"/><path d="M16 11v8"/></svg>
-    <span>归档</span>
-    <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    <p class="announcement-text">{{ $announcement.Params.description | default "欢迎来到我的网站！" }}</p>
   </a>
-
-  {{- /* ============================================
-    根据页面类型显示不同内容
-  ============================================ */ -}}
-  {{- $section := .Section -}}
-  
-  {{- /* ============================================
-    Notes页面: 可折叠目录树
-  ============================================ */ -}}
-  {{- if eq $section "notes" }}
-  <div class="directory-tree">
-    <div class="tree-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/><path d="M2 10h20"/></svg>
-      <h4>目录</h4>
-    </div>
-    <div class="tree-content">
-      {{- /* 编程目录 */ -}}
-      <div class="tree-folder">
-        <button class="folder-toggle" onclick="toggleFolder(this)">
-          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          <svg class="folder-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-          <span>编程</span>
-        </button>
-        <div class="folder-children" style="display: none;">
-          <div class="tree-folder">
-            <button class="folder-toggle" onclick="toggleFolder(this)">
-              <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-              <svg class="folder-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-              <span>C语言</span>
-            </button>
-            <div class="folder-children" style="display: none;">
-              <a href="{{ "/notes/programming/c/basics" | relURL }}" class="tree-file">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>基础语法</span>
-              </a>
-              <a href="{{ "/notes/programming/c/pointers" | relURL }}" class="tree-file">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>指针详解</span>
-              </a>
-            </div>
-          </div>
-          <div class="tree-folder">
-            <button class="folder-toggle" onclick="toggleFolder(this)">
-              <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-              <svg class="folder-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-              <span>Python</span>
-            </button>
-            <div class="folder-children" style="display: none;">
-              <a href="{{ "/notes/programming/python/basics" | relURL }}" class="tree-file">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>基础入门</span>
-              </a>
-              <a href="{{ "/notes/programming/python/web" | relURL }}" class="tree-file">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                <span>Web开发</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {{- /* 飞行器设计目录 */ -}}
-      <div class="tree-folder">
-        <button class="folder-toggle" onclick="toggleFolder(this)">
-          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          <svg class="folder-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
-          <span>飞行器设计</span>
-        </button>
-        <div class="folder-children" style="display: none;">
-          <a href="{{ "/notes/aircraft/aerodynamics" | relURL }}" class="tree-file">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>空气动力学</span>
-          </a>
-          <a href="{{ "/notes/aircraft/structure" | relURL }}" class="tree-file">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>结构设计</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
   {{- end }}
 
-  {{- /* ============================================
-    Blogs页面: 可折叠标签云
-  ============================================ */ -}}
-  {{- if eq $section "blogs" }}
-  <div class="tag-cloud">
-    <button class="tag-cloud-header" onclick="toggleTagCloud(this)">
-      <div class="header-left">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.3 9.3a1 1 0 0 0 1.4 0l8.6-8.6a1 1 0 0 0 0-1.4L12 2Z"/><circle cx="7" cy="7" r="2"/></svg>
-        <h4>标签</h4>
+  {{- /* 归档链接 */ -}}
+  {{- $archivePath := "/archive" -}}
+  {{- if and .Section (ne .Section "") -}}
+    {{- $sectionPage := site.GetPage .Section -}}
+    {{- if $sectionPage -}}
+      {{- $sectionArchive := $sectionPage.GetPage "archive" -}}
+      {{- if $sectionArchive -}}
+        {{- $archivePath = $sectionArchive.RelPermalink -}}
+      {{- else -}}
+        {{- $archivePath = printf "/%s/archive" .Section -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <a href="{{ $archivePath | relURL }}" class="archive-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 17.6-1.5-7.5A2 2 0 0 0 18.2 8H14V5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v3H4.8a2 2 0 0 0-2 2.1l1.5 7.5A2 2 0 0 0 6.3 19h12.4a2 2 0 0 0 2-1.4Z"/><path d="M12 11v8"/><path d="M8 11v8"/><path d="M16 11v8"/></svg>
+    <span>归档</span>
+  </a>
+
+  {{- /* ========== Notes 目录导航 ========== */ -}}
+  {{- if or (eq .Section "notes") (eq .Type "announcement") }}
+  {{- $notesSection := site.GetPage "notes" -}}
+  {{- if $notesSection -}}
+  <nav class="nav-menu">
+    <div class="menu-header">
+      <span class="menu-title">目录</span>
+    </div>
+    <div class="menu-content">
+      {{- range where $notesSection.Pages "Layout" "!=" "archives" -}}
+      <div class="menu-section">
+        {{- if .IsNode -}}
+        {{- $isOpen := in $.RelPermalink .RelPermalink -}}
+        {{- $childCount := len (where .RegularPages "Layout" "!=" "archives") -}}
+        <details {{ if $isOpen }}open{{ end }}>
+          <summary class="menu-folder">
+            <span class="folder-toggle-icon"></span>
+            <span class="folder-name">{{ .Title | default .File.BaseFileName }}</span>
+            {{- if gt $childCount 0 -}}
+            <span class="folder-count">{{ $childCount }}</span>
+            {{- end -}}
+          </summary>
+          <div class="folder-children">
+            {{- range where .RegularPages "Layout" "!=" "archives" -}}
+            <a href="{{ .RelPermalink }}" class="menu-item {{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">
+              <span class="item-name">{{ .Title | default .File.BaseFileName }}</span>
+            </a>
+            {{- end -}}
+          </div>
+        </details>
+        {{- else -}}
+        <a href="{{ .RelPermalink }}" class="menu-item menu-file {{ if eq $.RelPermalink .RelPermalink }}active{{ end }}">
+          <span class="item-name">{{ .Title | default .File.BaseFileName }}</span>
+        </a>
+        {{- end -}}
       </div>
-      <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-    </button>
-    <div class="tag-cloud-content" style="display: none;">
+      {{- end -}}
+    </div>
+  </nav>
+  {{- end -}}
+  {{- end }}
+
+  {{- /* ========== Blogs 标签云 ========== */ -}}
+  {{- if or (eq .Section "blogs") (eq .Type "announcement") (eq .Section "tags") }}
+  <div class="tags-widget">
+    <div class="widget-header">
+      <span class="widget-title">热门标签</span>
+    </div>
+    <div class="tags-list">
       {{- range $name, $taxonomy := site.Taxonomies.tags }}
-      <a href="{{ $taxonomy.Page.Permalink }}" class="tag-item">
-        <span>{{ $name }}</span>
-        <span class="tag-count">({{ len $taxonomy }})</span>
+      <a href="{{ $taxonomy.Page.RelPermalink }}" class="tag-badge">
+        {{ $name }}
+        <span class="tag-num">{{ len $taxonomy }}</span>
       </a>
-      {{- else }}
-      {{- /* 默认标签 */ -}}
-      <a href="{{ "/tags/hugo" | relURL }}" class="tag-item"><span>Hugo</span><span class="tag-count">(5)</span></a>
-      <a href="{{ "/tags/博客" | relURL }}" class="tag-item"><span>博客</span><span class="tag-count">(4)</span></a>
-      <a href="{{ "/tags/技术" | relURL }}" class="tag-item"><span>技术</span><span class="tag-count">(8)</span></a>
-      <a href="{{ "/tags/glance" | relURL }}" class="tag-item"><span>Glance</span><span class="tag-count">(3)</span></a>
-      <a href="{{ "/tags/仪表盘" | relURL }}" class="tag-item"><span>仪表盘</span><span class="tag-count">(3)</span></a>
-      <a href="{{ "/tags/自托管" | relURL }}" class="tag-item"><span>自托管</span><span class="tag-count">(2)</span></a>
       {{- end }}
     </div>
   </div>
   {{- end }}
+
 </div>

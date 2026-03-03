@@ -11,20 +11,31 @@
 {{- define "main" }}
 <header class="page-header">
   <h1 style="display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
-    {{- /* 1. 遍历父级目录，生成带有链接的路径 */ -}}
-    {{- range .Ancestors.Reverse -}}
-      {{- if not .IsHome -}}
-        {{- $ancTitle := .Title -}}
-        {{- if not $ancTitle }}{{ if .File }}{{ $ancTitle = .File.BaseFileName }}{{ else }}{{ $ancTitle = "未命名" }}{{ end }}{{ end -}}
-        <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $ancTitle }}</a> 
-        <span style="opacity: 0.4; font-weight: 400; font-size: 0.85em; user-select: none;">/</span>
+    {{- /* 1. 如果是 taxonomy 页面（如 tags/terms），显示 tags/term 名称 */ -}}
+    {{- if .Data.Term -}}
+      <a href="{{ .FirstSection.RelPermalink }}" style="color: inherit; text-decoration: none;">{{ .FirstSection.Title }}</a> 
+      <span style="opacity: 0.4; font-weight: 400; font-size: 0.85em; user-select: none;">/</span>
+      <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ .Data.Term }}</a>
+    {{- else -}}
+      {{- /* 2. 遍历父级目录，生成带有链接的路径 */ -}}
+      {{- range .Ancestors.Reverse -}}
+        {{- if not .IsHome -}}
+          {{- $ancTitle := .Title -}}
+          {{- if not $ancTitle }}
+            {{- if .File }}{{ $ancTitle = .File.BaseFileName }}{{ else }}{{ $ancTitle = "未命名" }}{{ end }}
+          {{- end -}}
+          <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $ancTitle }}</a> 
+          <span style="opacity: 0.4; font-weight: 400; font-size: 0.85em; user-select: none;">/</span>
+        {{- end -}}
       {{- end -}}
+      
+      {{- /* 3. 获取当前目录的名字，并赋予链接 */ -}}
+      {{- $currTitle := .Title -}}
+      {{- if not $currTitle }}
+        {{- if .File }}{{ $currTitle = .File.BaseFileName }}{{ else }}{{ $currTitle = "未命名" }}{{ end }}
+      {{- end -}}
+      <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $currTitle }}</a>
     {{- end -}}
-    
-    {{- /* 2. 获取当前目录的名字，并赋予链接 */ -}}
-    {{- $currTitle := .Title -}}
-    {{- if not .Params.title }}{{ if .File }}{{ $currTitle = .File.BaseFileName }}{{ else }}{{ $currTitle = "未命名" }}{{ end }}{{ end -}}
-    <a href="{{ .Permalink }}" style="color: inherit; text-decoration: none;">{{ $currTitle }}</a>
   </h1>
   
   {{- if .Content }}
@@ -34,8 +45,9 @@
   {{- end }}
 </header>
 
-{{- /* 文章/子目录 列表 */ -}}
-{{- $paginator := .Paginate .Pages }}
+{{- /* 文章/子目录 列表，过滤掉归档页面 */ -}}
+{{- $filteredPages := where .Pages "Layout" "!=" "archives" -}}
+{{- $paginator := .Paginate $filteredPages }}
 {{- if $paginator.Pages }}
 <div class="posts-list">
   {{- range $paginator.Pages }}
@@ -45,11 +57,21 @@
       <h2 class="entry-title">
         {{- /* 如果当前项目是一个子目录 (子 List)，显示一个文件夹图标以作区分 */ -}}
         {{- if .IsNode -}}
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: text-bottom; margin-right: 6px; color: #3b82f6;"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style=" vertical-align: -2px ; margin-right: 6px; color: #3b82f6;"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
         {{- end -}}
         
         {{- /* 标题逻辑：这里移除了原本内部的 <a> 标签，防止嵌套链接引起浏览器解析错误 */ -}}
-        {{- if .Params.title }}{{ .Title }}{{ else if .File }}{{ .File.BaseFileName }}{{ else }}未命名{{ end }}
+        {{- $title := .Title -}}
+        {{- if not $title -}}
+          {{- if .Data.Term -}}
+            {{- $title = .Data.Term -}}
+          {{- else if .File -}}
+            {{- $title = .File.BaseFileName -}}
+          {{- else -}}
+            {{- $title = "未命名" -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $title -}}
       </h2>
     </header>
     
@@ -64,7 +86,7 @@
     <footer class="entry-footer">
       <span class="entry-date">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-        {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ else }}1949-10-01{{ end }}
+        {{ if .Params.date }}{{ .Date.Format "2006-01-02" }}{{ else }}{{ $y := int site.Params.defaultDate.year }}{{ $m := int site.Params.defaultDate.month }}{{ $d := int site.Params.defaultDate.day }}{{ printf "%d-%02d-%02d" $y $m $d }}{{ end }}
       </span>
       
       {{- if .Params.tags }}

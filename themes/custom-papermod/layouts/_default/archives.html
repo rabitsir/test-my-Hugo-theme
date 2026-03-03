@@ -1,31 +1,72 @@
 {{- /* ============================================
   Archive页面模板 (Archives Template)
   ============================================
-  参考 https://osnsyc.top 的Archive页面设计
-  按年份分组展示文章
+  支持分层级归档：
+  - 主页归档 (/archive/)：显示所有 mainSections 的文章
+  - Section 归档 (/notes/archive/)：显示当前 section 下的文章（包括子目录）
+  - 子目录归档：显示当前目录下的文章
 ============================================ */ -}}
 
 {{- define "main" }}
+{{- /* 确定归档范围 */ -}}
+{{- $pages := slice -}}
+{{- $scope := "全站" -}}
+
+{{- /* 获取当前页面的路径 */ -}}
+{{- $currentPath := .RelPermalink -}}
+
+{{- /* 如果是根目录的归档页面 (/archive/) */ -}}
+{{- if eq $currentPath "/archive/" -}}
+  {{- /* 全站归档：获取所有 mainSections 的文章，排除归档页面本身 */ -}}
+  {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections -}}
+  {{- $pages = where $pages "Layout" "!=" "archives" -}}
+  {{- $scope = "全站" -}}
+{{- /* 如果是其他归档页面 */ -}}
+{{- else -}}
+  {{- /* 从当前页面的父级获取 section */ -}}
+  {{- $parent := .Parent -}}
+  {{- if $parent -}}
+    {{- $pages = $parent.RegularPagesRecursive -}}
+    {{- $pages = where $pages "Layout" "!=" "archives" -}}
+    {{- $scope = $parent.Title -}}
+  {{- else -}}
+    {{- $pages = where site.RegularPages "Type" "in" site.Params.mainSections -}}
+    {{- $pages = where $pages "Layout" "!=" "archives" -}}
+  {{- end -}}
+{{- end -}}
+
 <header class="archive-header">
   <h1>{{ .Title }}</h1>
-  {{- $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
-  <p class="archive-count">共有 <strong>{{ len $posts }}</strong> 篇文章</p>
+  <p class="archive-count">{{ $scope }}共有 <strong>{{ len $pages }}</strong> 篇文章</p>
 </header>
 
 <div class="archive-content">
   {{- /* 按年份分组 */ -}}
-  {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
   {{- $grouped := $pages.GroupByDate "2006" }}
   
   {{- range $grouped }}
   <div class="archive-year">
-    <h2 class="year-title">{{ .Key }}</h2>
+    {{- /* 如果年份是 0001（Hugo 零值），显示默认年份 */ -}}
+    {{- $year := .Key -}}
+    {{- if eq $year "0001" }}{{ $y := int site.Params.defaultDate.year }}{{ $year = $y }}{{ end -}}
+    <h2 class="year-title">{{ $year }}</h2>
     <ul class="year-posts">
       {{- range .Pages }}
       <li class="post-item">
         <span class="post-bullet"></span>
-        <a href="{{ .Permalink }}" class="post-title">{{ .Title }}</a>
+        {{- /* 标题：如果为空，使用文件名 */ -}}
+        {{- $title := .Title -}}
+        {{- if not $title -}}
+          {{- if .File -}}{{ $title = .File.BaseFileName }}{{ else }}{{ $title = "未命名" }}{{ end -}}
+        {{- end -}}
+        <a href="{{ .RelPermalink }}" class="post-title">{{ $title }}</a>
+        {{- /* 日期：如果没有设置，显示默认日期 */ -}}
+        {{- if .Params.date -}}
         <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
+        {{- else -}}
+        {{- $y := int site.Params.defaultDate.year -}}{{- $m := int site.Params.defaultDate.month -}}{{- $d := int site.Params.defaultDate.day -}}
+        <span class="post-date">{{ printf "%d-%02d-%02d" $y $m $d }}</span>
+        {{- end -}}
       </li>
       {{- end }}
     </ul>
