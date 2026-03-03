@@ -40,7 +40,7 @@
   --spacing-xl: 2rem;
 
   /* 侧边栏宽度 */
-  --sidebar-width: 270px;
+  --sidebar-width: 280px;
   /* 把侧边栏稍微收窄到 260px，给中间文章腾出更多空间 */
   --content-max-width: 100%;
   /* ✨ 关键！改成 100%，彻底解除中间栏的最大宽度限制 */

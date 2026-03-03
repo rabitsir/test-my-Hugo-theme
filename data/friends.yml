@@ -1,0 +1,12 @@
+- name: PaperMod
+  url: https://github.com/adityatelange/hugo-PaperMod
+
+- name: Hugo Book
+  url: https://github.com/alex-shpak/hugo-book
+
+- name: OSNSYC
+  url: https://osnsyc.top
+
+# 如果以后要加新的朋友，直接在下面照着写就行：
+# - name: 某某的博客
+#   url: https://example.com

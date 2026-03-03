@@ -153,150 +153,7 @@
   transform: translateX(4px);
 }
 
-/* 目录树 */
-.directory-tree {
-  background: var(--bg-card);
-  border-radius: var(--border-radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
-}
 
-.tree-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-
-.tree-header h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.tree-folder {
-  margin-bottom: 0.25rem;
-}
-
-.folder-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-.folder-toggle:hover {
-  background: #f3f4f6;
-}
-
-.folder-toggle .chevron {
-  transition: transform 0.2s;
-  color: var(--text-muted);
-}
-
-.folder-toggle.expanded .chevron {
-  transform: rotate(90deg);
-}
-
-.folder-toggle .folder-icon {
-  color: var(--primary);
-}
-
-.folder-children {
-  padding-left: 1.5rem;
-  margin-top: 0.25rem;
-}
-
-.tree-file {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.375rem 0.5rem;
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.tree-file:hover {
-  background: #eff6ff;
-  color: var(--primary);
-}
-
-.tree-file svg {
-  color: var(--text-muted);
-}
-
-/* 标签云 */
-.tag-cloud {
-  background: var(--bg-card);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-
-.tag-cloud-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  color: var(--text-primary);
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.header-left h4 {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.tag-cloud-header .chevron {
-  transition: transform 0.2s;
-  color: var(--text-muted);
-}
-
-.tag-cloud-header.expanded .chevron {
-  transform: rotate(90deg);
-}
-
-.tag-cloud-content {
-  padding: 0 1.25rem 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tag-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.375rem 0.75rem;
-  background: #f3f4f6;
-  border-radius: 9999px;
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
-  transition: all 0.2s;
-}
-
-.tag-item:hover {
-  background: #eff6ff;
-  color: var(--primary);
-}
-
-.tag-count {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-}
 
 /* ============================================
    中间内容区
@@ -847,41 +704,36 @@
 }
 
 .search-results {
+  display: none;
+  /* 新增：默认彻底隐藏，杜绝占位闪烁 */
+  margin-left: 1rem;
+  /* 新增：整体向右偏移一点 */
+  width: calc(100% - 1rem);
+  /* 新增：减去偏移量，防止右侧超出面板 */
   margin-top: 0.5rem;
   max-height: 200px;
   overflow-y: auto;
 }
 
 /* TOC */
+
 .toc-wrapper {
   background: var(--bg-card);
   border-radius: var(--border-radius);
+  padding: 1.25rem;
+  /* 增加与其他卡片相同的统一内边距 */
   box-shadow: var(--shadow-sm);
-  overflow: hidden;
 }
 
-.toc-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  color: var(--text-primary);
-}
-
-.toc-header .chevron {
-  transition: transform 0.2s;
-  color: var(--text-muted);
-}
-
-.toc-header.expanded .chevron {
-  transform: rotate(90deg);
+.toc-wrapper .section-header {
+  color: var(--primary);
+  /* 让标题图标呈现网站主色调（蓝色），以区分其他卡片的绿/橙色 */
 }
 
 .toc-content {
-  padding: 0 1.25rem 1rem;
   max-height: 300px;
   overflow-y: auto;
+  /* 移除了原本的 padding，因为外层 wrapper 已经统一设置了 */
 }
 
 .toc-content ul {
@@ -889,12 +741,12 @@
 }
 
 .toc-content li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.1rem;
 }
 
 .toc-content a {
   display: block;
-  padding: 0.375rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   font-size: 0.875rem;
   color: var(--text-secondary);
   border-radius: 4px;
@@ -906,8 +758,14 @@
   color: var(--primary);
 }
 
+/* 新增：让多级目录的父容器统一缩进，1.2rem 大致等同于 4 个空格的视觉宽度 */
+.toc-content ul ul {
+  padding-left: 1.2rem;
+}
+
 .toc-content ul ul a {
-  padding-left: 1rem;
+  padding-left: 0.5rem;
+  /* 去掉以前写死的左缩进，让外层 ul 去负责缩进 */
   font-size: 0.8125rem;
 }
 
@@ -1068,4 +926,265 @@
   .post-nav .next {
     grid-column: 1;
   }
+}
+
+/* ============================================
+   轮换面板样式 (友情链接 & 网站资讯)
+============================================ */
+.widget-carousel {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.carousel-tabs {
+  display: flex;
+  justify-content: center;
+  /* 新增：让两个标签在面板中水平居中对齐 */
+  gap: 2.5rem;
+  /* 修改：把间距稍微调大一点，视觉上更平衡对称 */
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #f3f4f6;
+  padding-bottom: 0.5rem;
+}
+
+.carousel-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.carousel-tab:hover {
+  color: var(--primary);
+}
+
+.carousel-tab.active {
+  color: var(--primary);
+}
+
+/* 当前激活标签底部的蓝线 */
+.carousel-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.6rem;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.carousel-pane {
+  display: none;
+  animation: fadeIn 0.4s ease;
+  /* 切换时的淡入动画 */
+}
+
+.carousel-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================
+   左侧边栏 - 笔记目录 (.nav-menu)
+============================================ */
+.nav-menu {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+  /* 与右侧边栏统一蓝色主色调 */
+}
+
+.menu-header span {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  /* 从 0.25rem 缩小：拉近文件夹/文件之间的整体行距 */
+}
+
+/* 文件夹层级 */
+.menu-folder {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.1rem 0.5rem;
+  /* 从 0.4rem 缩小：减小文件夹上下内边距，使其与右侧目录行高一致 */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: background 0.2s;
+  list-style: none;
+  user-select: none;
+}
+
+.menu-folder::-webkit-details-marker {
+  display: none;
+}
+
+/* 兼容 Safari */
+
+.menu-folder:hover {
+  background: #f3f4f6;
+}
+
+/* 自定义翻页小三角 */
+.folder-toggle-icon {
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+details[open]>.menu-folder .folder-toggle-icon {
+  transform: rotate(90deg);
+  /* 展开时箭头朝下 */
+}
+
+.folder-name {
+  flex: 1;
+}
+
+/* 文件夹里的文章数量标签 */
+.folder-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: #e5e7eb;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+}
+
+/* 子文件列表 */
+.folder-children {
+  padding-left: 1.7rem;
+  margin-top: 0.1rem;
+  /* 从 0.25rem 缩小：让子文件更贴近其父文件夹 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.menu-item {
+  display: block;
+  padding: 0.1rem 0.5rem;
+  /* 从 0.3rem 缩小：减小文章链接的上下内边距 */
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background: #eff6ff;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* ============================================
+   左侧边栏 - 热门标签 (.tags-widget)
+============================================ */
+.tags-widget {
+  background: var(--bg-card);
+  border-radius: var(--border-radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  /* 稍微缩小标题和标签堆的距离 */
+  color: #8b5cf6;
+}
+
+.widget-header span {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  /* 前面是上下间距，后面是左右间距，调小让排列更紧密 */
+  gap: 0.35rem 0.4rem;
+}
+
+.tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  /* 缩小文字和数字的间距 */
+  padding: 0.15rem 0.5rem;
+  /* 极大缩小上下内边距，显得小巧 */
+  background: #f3f4f6;
+  /* 用淡灰底色代替硬边框，看起来更柔和 */
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  /* 绝对圆角，呈现经典的胶囊/药丸形状 */
+  font-size: 0.75rem;
+  /* 保持较小的字号 */
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.tag-badge:hover {
+  background: var(--primary);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* 鼠标放上去加一点轻微的浮动阴影 */
+}
+
+.tag-num {
+  font-size: 0.65rem;
+  /* 数字进一步缩小 */
+  background: rgba(0, 0, 0, 0.06);
+  padding: 0.05rem 0.3rem;
+  /* 减少数字背景块的厚度 */
+  border-radius: 9999px;
+  /* 数字的背景也变成圆角胶囊 */
+}
+
+.tag-badge:hover .tag-num {
+  background: rgba(255, 255, 255, 0.25);
 }

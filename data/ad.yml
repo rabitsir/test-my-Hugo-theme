@@ -1,0 +1,5 @@
+# 广告位配置
+enable: true               # true 为显示广告位，false 为隐藏广告位
+title: "赞助广告"          # 广告上方的小标题
+message: "广告位长期招租，提供优质曝光"  # 广告的主内容
+contact: "contact@example.com"   # 联系方式

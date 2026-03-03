@@ -17,47 +17,16 @@
     </a>
   </div>
 
-  {{- /* 公告卡片 */ -}}
-  {{- $announcement := site.GetPage "/announcement" -}}
-  {{- if $announcement -}}
-  {{- $announcementURL := $announcement.RelPermalink -}}
-  {{- if and .Section (ne .Section "") -}}
-    {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
-  {{- end -}}
-  <a href="{{ $announcementURL }}" class="announcement-card">
-    <div class="card-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
-      <h4>{{ $announcement.Title }}</h4>
-    </div>
-    <p class="announcement-text">{{ $announcement.Params.description | default "欢迎来到我的网站！" }}</p>
-  </a>
-  {{- end }}
 
-  {{- /* 归档链接 */ -}}
-  {{- $archivePath := "/archive" -}}
-  {{- if and .Section (ne .Section "") -}}
-    {{- $sectionPage := site.GetPage .Section -}}
-    {{- if $sectionPage -}}
-      {{- $sectionArchive := $sectionPage.GetPage "archive" -}}
-      {{- if $sectionArchive -}}
-        {{- $archivePath = $sectionArchive.RelPermalink -}}
-      {{- else -}}
-        {{- $archivePath = printf "/%s/archive" .Section -}}
-      {{- end -}}
-    {{- end -}}
-  {{- end -}}
-  <a href="{{ $archivePath | relURL }}" class="archive-link">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 17.6-1.5-7.5A2 2 0 0 0 18.2 8H14V5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v3H4.8a2 2 0 0 0-2 2.1l1.5 7.5A2 2 0 0 0 6.3 19h12.4a2 2 0 0 0 2-1.4Z"/><path d="M12 11v8"/><path d="M8 11v8"/><path d="M16 11v8"/></svg>
-    <span>归档</span>
-  </a>
 
-  {{- /* ========== Notes 目录导航 ========== */ -}}
+{{- /* ========== Notes 目录导航 ========== */ -}}
   {{- if or (eq .Section "notes") (eq .Type "announcement") }}
   {{- $notesSection := site.GetPage "notes" -}}
   {{- if $notesSection -}}
   <nav class="nav-menu">
     <div class="menu-header">
-      <span class="menu-title">目录</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+      <span class="menu-title">笔记目录</span>
     </div>
     <div class="menu-content">
       {{- range where $notesSection.Pages "Layout" "!=" "archives" -}}
@@ -97,17 +66,53 @@
   {{- if or (eq .Section "blogs") (eq .Type "announcement") (eq .Section "tags") }}
   <div class="tags-widget">
     <div class="widget-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
       <span class="widget-title">热门标签</span>
     </div>
     <div class="tags-list">
       {{- range $name, $taxonomy := site.Taxonomies.tags }}
       <a href="{{ $taxonomy.Page.RelPermalink }}" class="tag-badge">
-        {{ $name }}
+        <span class="tag-name">{{ $name }}</span>
         <span class="tag-num">{{ len $taxonomy }}</span>
       </a>
       {{- end }}
     </div>
   </div>
   {{- end }}
+  
+  {{- /* 归档链接 */ -}}
+  {{- $archivePath := "/archive" -}}
+  {{- if and .Section (ne .Section "") -}}
+    {{- $sectionPage := site.GetPage .Section -}}
+    {{- if $sectionPage -}}
+      {{- $sectionArchive := $sectionPage.GetPage "archive" -}}
+      {{- if $sectionArchive -}}
+        {{- $archivePath = $sectionArchive.RelPermalink -}}
+      {{- else -}}
+        {{- $archivePath = printf "/%s/archive" .Section -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <a href="{{ $archivePath | relURL }}" class="archive-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.7 17.6-1.5-7.5A2 2 0 0 0 18.2 8H14V5a2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v3H4.8a2 2 0 0 0-2 2.1l1.5 7.5A2 2 0 0 0 6.3 19h12.4a2 2 0 0 0 2-1.4Z"/><path d="M12 11v8"/><path d="M8 11v8"/><path d="M16 11v8"/></svg>
+    <span>归档</span>
+  </a>
+
+  {{- /* 公告卡片 */ -}}
+  {{- $announcement := site.GetPage "/announcement" -}}
+  {{- if $announcement -}}
+  {{- $announcementURL := $announcement.RelPermalink -}}
+  {{- if and .Section (ne .Section "") -}}
+    {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
+  {{- end -}}
+  <a href="{{ $announcementURL }}" class="announcement-card">
+    <div class="card-header">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+      <h4>{{ $announcement.Title }}</h4>
+    </div>
+    <p class="announcement-text">{{ $announcement.Params.description | default "欢迎来到我的网站！" }}</p>
+  </a>
+  {{- end }}
 
 </div>
+

@@ -13,68 +13,71 @@
     <div id="search-results" class="search-results"></div>
   </div>
 
-  {{- /* ========== 文章目录 - 仅 single 页面显示，排除归档 ========== */ -}}
+{{- /* ========== 文章目录 - 仅 single 页面显示，排除归档 ========== */ -}}
   {{- if and (eq .Kind "page") (.IsPage) (ne .Layout "archives") (.TableOfContents) -}}
   {{- $tocContent := .TableOfContents -}}
   {{- /* 移除空的目录 */ -}}
   {{- if and $tocContent (ne $tocContent "") (ne $tocContent "\n") -}}
-  <div class="sidebar-card toc-card" id="toc-card">
-    <div class="card-content toc-content">
+  <div class="toc-wrapper" id="toc-card">
+
+    <div class="toc-content">
       {{ $tocContent }}
     </div>
   </div>
   {{- end -}}
   {{- end }}
 
-  {{- /* ========== 广告位 ========== */ -}}
+{{- /* ========== 广告位 ========== */ -}}
+  {{- if site.Data.ad.enable }}
   <div class="ad-space">
-    <h4 class="ad-label">赞助广告</h4>
+    <h4 class="ad-label">{{ site.Data.ad.title }}</h4>
     <div class="ad-content">
-      <p>广告位招租</p>
-      <p class="ad-contact">contact@example.com</p>
+      <p>{{ site.Data.ad.message }}</p>
+      <p class="ad-contact">{{ site.Data.ad.contact }}</p>
     </div>
   </div>
+  {{- end }}
 
-  {{- /* ========== 友情链接 ========== */ -}}
-  <div class="friend-links">
-    <div class="section-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-      <h4>友情链接</h4>
+{{- /* ========== 友情链接 & 网站资讯 (轮换面板) ========== */ -}}
+  <div class="widget-carousel">
+    <div class="carousel-tabs">
+      <div class="carousel-tab active" data-index="0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        友情链接
+      </div>
+      <div class="carousel-tab" data-index="1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+        网站资讯
+      </div>
     </div>
-    <div class="links-list">
-      <a href="https://github.com/adityatelange/hugo-PaperMod" target="_blank" rel="noopener noreferrer" class="friend-link">
-        <span>PaperMod</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-      </a>
-      <a href="https://github.com/alex-shpak/hugo-book" target="_blank" rel="noopener noreferrer" class="friend-link">
-        <span>Hugo Book</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-      </a>
-      <a href="https://osnsyc.top" target="_blank" rel="noopener noreferrer" class="friend-link">
-        <span>OSNSYC</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-      </a>
-    </div>
-  </div>
+    
+    <div class="carousel-content">
+      <div class="carousel-pane active" id="pane-0">
+        <div class="links-list">
+          {{- range site.Data.friends }}
+          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="friend-link">
+            <span>{{ .name }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+          </a>
+          {{- end }}
+        </div>
+      </div>
 
-  {{- /* ========== 网站资讯 ========== */ -}}
-  <div class="site-info">
-    <div class="section-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
-      <h4>网站资讯</h4>
-    </div>
-    <div class="info-list">
-      <div class="info-item">
-        <span class="info-label">文章总数</span>
-        <span class="info-value">{{ len (where site.RegularPages "Type" "in" site.Params.mainSections) }}</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">运行天数</span>
-        <span class="info-value">365</span>
-      </div>
-      <div class="info-item">
-        <span class="info-label">最后更新</span>
-        <span class="info-value">{{ now.Format "2006-01-02" }}</span>
+      <div class="carousel-pane" id="pane-1">
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-label">文章总数</span>
+            <span class="info-value">{{ len (where site.RegularPages "Type" "in" site.Params.mainSections) }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">运行天数</span>
+            <span class="info-value" id="running-days">0</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">最后更新</span>
+            <span class="info-value">{{ now.Format "2006-01-02" }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
