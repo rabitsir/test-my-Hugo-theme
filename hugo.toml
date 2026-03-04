@@ -10,7 +10,7 @@
 baseURL = '/'
 languageCode = 'zh-CN'
 title = 'Tech Explorer'
-theme = 'custom-papermod'
+theme = 'custom-Hugo-theme'
 
 # 时区设置
 timeZone = 'Asia/Shanghai'

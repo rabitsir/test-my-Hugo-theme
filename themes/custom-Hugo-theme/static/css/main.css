@@ -434,3 +434,100 @@ body.is-home {
   font-weight: 600;
   padding: 0.2rem 0.4rem;
 }
+
+/* ============================================
+   翻转卡片基础框架 (防残留版本)
+============================================ */
+.flip-card-container {
+  perspective: 1200px;
+  /* 增加透视距离，让翻转更自然 */
+  margin-bottom: 20px;
+}
+
+.flip-card-inner {
+  display: grid;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+/* 【关键修改】使用全新的类名触发 180 度翻转 */
+.flip-card-inner.do-flip {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* 兼容 Safari */
+  background-color: var(--entry, #ffffff);
+  border-radius: var(--radius, 8px);
+  position: relative;
+}
+
+/* 正面 0 度，背面 180 度 */
+.flip-card-front {
+  transform: rotateY(0deg);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ============================================
+   终极修复版：“撕开小口子”（折耳）效果
+============================================ */
+.peel-corner {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 46px;
+  height: 46px;
+  cursor: pointer;
+  z-index: 10;
+  /* 【关键修复1】将透明与底色的交界线从50%改为49.5%，让底色往里多延伸一点点，消除抗锯齿漏光 */
+  background: linear-gradient(135deg, transparent 49.5%, var(--theme, #f5f5f5) 49.5%);
+  /* 【关键修复2】将动画加在容器本身的尺寸上，而不是子元素的形变上 */
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.peel-corner::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  /* 【关键修复3】将折纸层的透明分界线延后到 51%，使其与遮罩层产生物理重叠，彻底压死白边 */
+  background: linear-gradient(135deg,
+      var(--entry, #ffffff) 0%,
+      rgba(150, 150, 150, 0.2) 46%,
+      transparent 51%);
+  filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.15));
+  border-bottom-right-radius: var(--radius, 8px);
+}
+
+/* 【关键修复4】悬停时，同步放大整个折角的尺寸。
+   因为背景是百分比渐变，容器变大会让斜线完美平移，看起来就像口子被撕得更大，且严丝合缝 */
+.peel-corner:hover {
+  width: 50px;
+  height: 50px;
+}
+
+/* 暗黑模式适配 */
+@media (prefers-color-scheme: dark) {
+  .peel-corner {
+    background: linear-gradient(135deg, transparent 49.5%, var(--theme, #1d1e20) 49.5%);
+  }
+
+  .peel-corner::before {
+    background: linear-gradient(135deg,
+        var(--entry, #2e2e33) 0%,
+        rgba(0, 0, 0, 0.6) 46%,
+        transparent 51%);
+    filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.4));
+  }
+}

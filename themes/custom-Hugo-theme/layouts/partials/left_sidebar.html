@@ -4,18 +4,55 @@
 
 <div class="sidebar-content" data-section="{{ .Section }}">
   
-  {{- /* 个人名片 */ -}}
-  <div class="profile-card">
-    <a href="{{ "/" | relURL }}" class="profile-link">
-      <img src="{{ site.Params.profileMode.imageUrl }}" alt="{{ site.Params.profileMode.title }}" class="profile-avatar" width="80" height="80">
-      <h3 class="profile-name">{{ site.Params.profileMode.title }}</h3>
-      <p class="profile-bio">{{ site.Params.profileMode.subtitle }}</p>
-      <span class="back-home">
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        点击返回主页
-      </span>
-    </a>
+<div class="sidebar-content" data-section="{{ .Section }}">
+  
+  {{- /* ============================================
+    个人名片与公告 (合并为翻转卡片)
+  ============================================ */ -}}
+  {{- $announcement := site.GetPage "/announcement" -}}
+  <div class="flip-card-container">
+    <div class="flip-card-inner" id="sidebar-flip-card">
+      
+      {{- /* 正面：个人名片 */ -}}
+      <div class="flip-card-front profile-card">
+        <a href="{{ "/" | relURL }}" class="profile-link">
+          <img src="{{ site.Params.profileMode.imageUrl }}" alt="{{ site.Params.profileMode.title }}" class="profile-avatar" width="80" height="80">
+          <h3 class="profile-name">{{ site.Params.profileMode.title }}</h3>
+          <p class="profile-bio">{{ site.Params.profileMode.subtitle }}</p>
+          <span class="back-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            点击返回主页
+          </span>
+        </a>
+        {{- /* 只有存在公告时，才显示撕开的小口子 */ -}}
+        {{- if $announcement -}}
+        <div class="peel-corner toggle-flip" title="查看公告"></div>
+        {{- end -}}
+      </div>
+
+      {{- /* 背面：公告卡片 */ -}}
+      {{- if $announcement -}}
+      {{- $announcementURL := $announcement.RelPermalink -}}
+      {{- if and .Section (ne .Section "") -}}
+        {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
+      {{- end -}}
+      <div class="flip-card-back announcement-card">
+        <a href="{{ $announcementURL }}" class="announcement-link" style="display: block; text-decoration: none; color: inherit;">
+          <div class="card-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+            <h4>{{ $announcement.Title }}</h4>
+          </div>
+          <p class="announcement-text">{{ $announcement.Params.description | default "欢迎来到我的网站！" }}</p>
+        </a>
+        {{- /* 背面也需要一个小口子翻回来 */ -}}
+        <div class="peel-corner toggle-flip" title="返回名片"></div>
+      </div>
+      {{- end -}}
+
+    </div>
   </div>
+
+  {{- /* 下方的 Notes 目录导航、标签云、归档等保持原样，不要改动... */ -}}
 
 
 
@@ -98,21 +135,23 @@
     <span>归档</span>
   </a>
 
-  {{- /* 公告卡片 */ -}}
-  {{- $announcement := site.GetPage "/announcement" -}}
-  {{- if $announcement -}}
-  {{- $announcementURL := $announcement.RelPermalink -}}
-  {{- if and .Section (ne .Section "") -}}
-    {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
-  {{- end -}}
-  <a href="{{ $announcementURL }}" class="announcement-card">
-    <div class="card-header">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
-      <h4>{{ $announcement.Title }}</h4>
-    </div>
-    <p class="announcement-text">{{ $announcement.Params.description | default "欢迎来到我的网站！" }}</p>
-  </a>
-  {{- end }}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const flipToggles = document.querySelectorAll('.toggle-flip');
+  const flipCardInner = document.getElementById('sidebar-flip-card');
 
+  if (flipToggles.length > 0 && flipCardInner) {
+    flipToggles.forEach(toggle => {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        // 【关键修改】更换了一个全新的类名：do-flip
+        flipCardInner.classList.toggle('do-flip');
+      });
+    });
+  }
+});
+
+</script>
 </div>
 
