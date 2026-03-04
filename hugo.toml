@@ -7,7 +7,7 @@
 # ============================================
 
 # 基础站点配置
-baseURL = '/'
+baseURL = 'https://rabitsir.icu'
 languageCode = 'zh-CN'
 title = 'Tech Explorer'
 theme = 'custom-Hugo-theme'
