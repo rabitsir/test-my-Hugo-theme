@@ -70,7 +70,8 @@
     let searchIndex = [];
 
     // 1. 强制打破缓存，并打印请求地址
-    const fetchUrl = '/index.json?t=' + new Date().getTime();
+    const baseUrl = searchInput.getAttribute('data-search-url') || '/index.json';
+    const fetchUrl = baseUrl + '?t=' + new Date().getTime();
     console.log('🔍 [搜索功能] 正在请求数据字典:', fetchUrl);
 
     fetch(fetchUrl)

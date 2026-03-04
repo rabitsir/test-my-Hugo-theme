@@ -47,14 +47,14 @@
 {{ end }}
 
 {{- /* 主题CSS */ -}}
-<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
-<link rel="stylesheet" href="{{ "css/three-column.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/main.css" | absURL }}">
+<link rel="stylesheet" href="{{ "css/three-column.css" | absURL }}">
 
 {{- /* 代码高亮 */ -}}
 {{- if (eq .Site.Params.defaultTheme "dark") }}
-<link rel="stylesheet" href="{{ "css/syntax-dark.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/syntax-dark.css" | absURL }}">
 {{- else }}
-<link rel="stylesheet" href="{{ "css/syntax-light.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/syntax-light.css" | absURL }}">
 {{- end }}
 
 {{- /* Open Graph / Twitter Card */ -}}
