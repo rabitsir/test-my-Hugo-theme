@@ -15,8 +15,6 @@ theme = 'custom-Hugo-theme'
 # 时区设置
 timeZone = 'Asia/Shanghai'
 
-# 开启相对链接
-relativeURLs = true
 
 # 分页设置
 [pagination]
