@@ -441,7 +441,7 @@ body.is-home {
 .flip-card-container {
   perspective: 1200px;
   /* 增加透视距离，让翻转更自然 */
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .flip-card-inner {

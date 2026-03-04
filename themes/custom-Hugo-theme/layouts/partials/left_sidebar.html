@@ -1,8 +1,6 @@
 {{- /* ============================================
   左侧边栏模板 (Left Sidebar)
 ============================================ */ -}}
-
-<div class="sidebar-content" data-section="{{ .Section }}">
   
 <div class="sidebar-content" data-section="{{ .Section }}">
   
@@ -36,8 +34,8 @@
       {{- if and .Section (ne .Section "") -}}
         {{- $announcementURL = printf "%s?from=%s" $announcementURL .Section -}}
       {{- end -}}
-      <div class="flip-card-back announcement-card">
-        <a href="{{ $announcementURL }}" class="announcement-link" style="display: block; text-decoration: none; color: inherit;">
+      <div class="flip-card-back announcement-card" style="padding: 0;">
+        <a href="{{ $announcementURL }}" class="announcement-link" style="display: block; width: 100%; height: 100%; padding: 1.25rem; box-sizing: border-box; text-decoration: none; color: inherit;">
           <div class="card-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
             <h4>{{ $announcement.Title }}</h4>
