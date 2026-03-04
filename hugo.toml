@@ -7,7 +7,7 @@
 # ============================================
 
 # 基础站点配置
-baseURL = 'https://rabitsir.icu'
+baseURL = 'https://rabitsir.icu/test-Hugo-theme/'
 languageCode = 'zh-CN'
 title = 'Tech Explorer'
 theme = 'custom-Hugo-theme'
